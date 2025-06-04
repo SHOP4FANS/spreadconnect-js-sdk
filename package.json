@@ -1,6 +1,6 @@
 {
-  "name": "spreadconnect-js-sdk",
-  "version": "0.0.2",
+  "name": "@shop4fans/spreadconnect-js-sdk",
+  "version": "0.0.3",
   "description": "A SDK for Spreadconnect",
   "main": "index.js",
   "type": "module",
@@ -8,6 +8,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/spod-types.js",
+      "types": "./dist/types/spod-types.d.ts"
     }
   },
   "scripts": {
