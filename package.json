@@ -3,9 +3,22 @@
   "version": "0.0.1",
   "description": "A SDK for Spreadconnect",
   "main": "index.js",
-  "scripts": {
-    "start": "node ./src/index.js"
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
   "author": "SHOP4FANS",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }
