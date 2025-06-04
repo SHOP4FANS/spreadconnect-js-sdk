@@ -1,5 +1,5 @@
 {
-  "name": "@shop4fans/spreadconnect-js-sdk",
+  "name": "spreadconnect-js-sdk",
   "version": "0.0.3",
   "description": "A SDK for Spreadconnect",
   "main": "index.js",
