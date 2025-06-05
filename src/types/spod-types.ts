@@ -68,6 +68,9 @@ export type GetStocksParams = operations['getStocks']['parameters']['query'];
 // Response Types
 export type GetArticlesResponse = operations['getArticles']['responses'][200]['content']['application/json'];
 export type CreateArticleResponse = operations['createArticle']['responses'][202]['content']['application/json'];
+export type GetSingleArticleResponse = operations['getArticle']['responses'][200]['content']['application/json'];
+export type DeleteSingleArticleResponse = operations['deleteArticle']['responses'][200]['content'];
+
 export type GetShippingTypesResponse = operations['getShippingTypes']['responses'][200]['content']['application/json'];
 export type GetShipmentsResponse = operations['getShipments']['responses'][200]['content']['application/json'];
 export type GetProductTypesResponse = operations['getProductTypes']['responses'][200]['content']['application/json'];
@@ -78,16 +81,8 @@ export type GetSubscriptionsResponse = operations['getSubscriptions']['responses
 export type TaxType = NonNullable<GetOrder['taxType']>;
 export type CustomerTaxType = NonNullable<CreateOrder['customerTaxType']>;
 
-export type Pagination<T> = {
-  items: T[],
-  count: number,
-  limit: number,
-  offset: number
-}
-
-export type SenderProps = { method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH", path: string };
-export type SenderFunction = <T>(props: SenderProps) => Promise<T>
-
-export type MethodProps<T> = {
-  sender: SenderFunction
-} & T;
+export type SenderProps = {
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+  path: string,
+  body?: string | FormData
+};

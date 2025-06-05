@@ -19,13 +19,14 @@ export class ApiService {
         this.token = token;
     }
 
-    public async SendRequest<T>({ method, path }: SenderProps): Promise<T> {
+    public async SendRequest<T>({ method, path, body }: SenderProps): Promise<T> {
         try {
             const res = await fetch(this.baseUrl + path, {
                 method,
                 headers: {
                     "X-SPOD-ACCESS-TOKEN": this.token
-                }
+                },
+                body
             });
             return await res.json() as T;
         } catch (e) {
