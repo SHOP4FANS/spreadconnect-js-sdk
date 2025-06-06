@@ -1,69 +1,72 @@
-import { ApiService } from "./service/api.js";
 import { ARTICLES_PATH } from "./spod-endpoints.js";
-import { ArticleCreation, CreateArticleResponse, DeleteSingleArticleResponse, GetArticlesResponse, GetSingleArticleResponse } from "./types/spod-types.js";
+import { ArticlesApi, SenderProps } from "./types/sdk-types.js";
+import { ArticleCreation, CreateArticleResponse, DeleteArticleParams, DeleteSingleArticleResponse, GetArticleParams, GetArticlesResponse, GetSingleArticleResponse } from "./types/spod-types.js";
 
 /**
  * The Spreadconnect class provides methods to interact with the Spreadconnect API.
  * It requires a base URL and an access token for authentication.
  */
-export class Spreadconnect {
+export class SpreadconnectV2 {
+    private baseUrl: string;
+    private token: string;
 
-    private apiService: ApiService;
+    articles: ArticlesApi;
 
     constructor({ baseUrl, token }: { baseUrl: string, token: string }) {
+        this.token = token;
+        this.baseUrl = baseUrl;
 
-        if (!baseUrl) {
-            throw new Error("Base url is missing");
+        this.articles = this.createArticleApi();
+    }
+
+    private async SendRequest<T>({ method, path, body }: SenderProps): Promise<T> {
+        try {
+            const res = await fetch(this.baseUrl + path, {
+                method,
+                headers: {
+                    "X-SPOD-ACCESS-TOKEN": this.token
+                },
+                body
+            });
+
+            const text = await res.text();
+
+            if (this.isJson(text)) {
+                return JSON.parse(text);
+            } else {
+                return text as T;
+            }
+        } catch (e) {
+            console.error(e);
+            throw new Error();
         }
+    }
 
-        if (!token) {
-            throw new Error("Access token is missing");
+    private isJson(str: string): boolean {
+        try {
+            JSON.parse(str);
+            return true;
+        } catch {
+            return false;
         }
-
-        this.apiService = new ApiService({ baseUrl, token });
     }
 
-    /**
-     * Retrieves a paginated list of all articles from the server.
-     */
-    public async GetAllArticles() {
-        return await this.apiService.SendRequest<GetArticlesResponse>({ method: "GET", path: ARTICLES_PATH });
-    }
-
-    /**
-     * Creates a new article with the provided data.
-     *
-     * @param props - The article creation payload including title, content, etc.
-     */
-    public async CreateArticle(props: ArticleCreation) {
-        return await this.apiService.SendRequest<CreateArticleResponse>({
-            method: "POST",
-            path: ARTICLES_PATH,
-            body: JSON.stringify(props)
-        });
-    }
-
-    /**
-     * Retrieves the details of a single article by its ID.
-     *
-     * @param articleId - The ID of the article to retrieve.
-     */
-    public async GetSingleArticle(articleId: string) {
-        return await this.apiService.SendRequest<GetSingleArticleResponse>({
-            method: "GET",
-            path: ARTICLES_PATH + `/${articleId}`
-        });
-    }
-
-    /**
-     * Deletes a single article by its ID.
-     *
-     * @param articleId - The ID of the article to delete.
-     */
-    public async DeleteSingleArticle(articleId: string) {
-        return await this.apiService.SendRequest<DeleteSingleArticleResponse>({
-            method: "DELETE",
-            path: ARTICLES_PATH + `/${articleId}`
-        });
+    private createArticleApi(): ArticlesApi {
+        return {
+            list: () => this.SendRequest<GetArticlesResponse>({ method: "GET", path: ARTICLES_PATH }),
+            get: (props: GetArticleParams) => this.SendRequest<GetSingleArticleResponse>({
+                method: "GET",
+                path: ARTICLES_PATH + `/${props.articleId}`
+            }),
+            create: (props: ArticleCreation) => this.SendRequest<CreateArticleResponse>({
+                method: "POST",
+                path: ARTICLES_PATH,
+                body: JSON.stringify(props)
+            }),
+            delete: (props: DeleteArticleParams) => this.SendRequest<DeleteSingleArticleResponse>({
+                method: "DELETE",
+                path: ARTICLES_PATH + `/${props.articleId}`
+            })
+        }
     }
 }

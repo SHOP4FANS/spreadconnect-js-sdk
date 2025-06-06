@@ -63,6 +63,9 @@ export type StocksResponse = operations['getStocks']['responses'][200]['content'
 
 // Request Parameters
 export type GetArticlesParams = operations['getArticles']['parameters']['query'];
+export type GetArticleParams = operations['getArticle']['parameters']['path'];
+export type DeleteArticleParams = operations['deleteArticle']['parameters']['path'];
+
 export type GetStocksParams = operations['getStocks']['parameters']['query'];
 
 // Response Types
@@ -80,9 +83,3 @@ export type GetSubscriptionsResponse = operations['getSubscriptions']['responses
 // Tax Types
 export type TaxType = NonNullable<GetOrder['taxType']>;
 export type CustomerTaxType = NonNullable<CreateOrder['customerTaxType']>;
-
-export type SenderProps = {
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
-  path: string,
-  body?: string | FormData
-};
