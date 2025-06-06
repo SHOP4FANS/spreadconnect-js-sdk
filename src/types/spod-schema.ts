@@ -1043,7 +1043,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description articleId */
-                articleId: string;
+                articleId: number;
             };
             cookie?: never;
         };
