@@ -6,7 +6,7 @@ import { ArticleCreation, CreateArticleResponse, DeleteArticleParams, DeleteSing
  * The Spreadconnect class provides methods to interact with the Spreadconnect API.
  * It requires a base URL and an access token for authentication.
  */
-export class SpreadconnectV2 {
+export class Spreadconnect {
     private baseUrl: string;
     private token: string;
 
