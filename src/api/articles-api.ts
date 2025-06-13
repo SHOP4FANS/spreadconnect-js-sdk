@@ -12,7 +12,7 @@ export class ArticlesApi {
     get(props: GetArticleParams) {
         return this.client.request<GetSingleArticleResponse>(
             "GET",
-        `${ARTICLES_PATH}/${props.articleId}`
+            `${ARTICLES_PATH}/${props.articleId}`
     );
     }
 

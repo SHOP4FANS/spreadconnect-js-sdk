@@ -1,7 +1,9 @@
+import { ApiResponse } from "../types/sdk-types";
+
 export class HttpClient {
     constructor(private baseUrl: string, private token: string){}
 
-    async request<T>(method: string, path: string, body?: any): Promise<T> {
+    async request<T>(method: string, path: string, body?: any): Promise<ApiResponse<T>> {
         const result = await fetch(this.baseUrl + path, {
             method,
             headers: {
@@ -12,13 +14,14 @@ export class HttpClient {
         });
 
         const text = await result.text();
-        if (!result.ok) {
-            throw new Error(`HTTP ${result.status}: ${text}`)
-        }
+        let data: T | undefined = undefined;
         try {
-            return JSON.parse(text);
-        } catch {
-            return text as T
-        }
+            data = text ? JSON.parse(text) : undefined
+        } catch {}
+        return {
+            status: result.status,
+            data,
+            rawBody: text
+        };
     }
 }
