@@ -2,16 +2,20 @@
   "name": "spreadconnect-js-sdk",
   "version": "0.0.3",
   "description": "A SDK for Spreadconnect",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./api/articles-api": {
+      "import": "./dist/api/articles-api.js",
+      "types": "./dist/api/articles-api.d.ts"
+    },
     "./types": {
-      "import": "./dist/types/spod-types.js",
-      "types": "./dist/types/spod-types.d.ts"
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
     }
   },
   "scripts": {
@@ -21,6 +25,10 @@
     "dist"
   ],
   "author": "SHOP4FANS",
+  "contributors": [
+    "Antonii Adamovych <antonii@shop4fans.io>",
+    "Konrad Hölzenbein <konrad@shop4fans.io>"
+  ],
   "license": "Apache-2.0",
   "devDependencies": {
     "typescript": "^5.8.3"
