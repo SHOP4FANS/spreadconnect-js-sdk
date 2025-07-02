@@ -120,7 +120,7 @@ describe('Orders API', () => {
         expect(httpClient.request).toHaveBeenCalledWith("GET", `${ORDERS_PATH}/${id}/shippingTypes`);
     })
 
-    test('Get Available Shipping Types', async () => {
+    test('Get Shipping', async () => {
         const id = "10";
 
         httpClient.request.mockResolvedValueOnce(GetShippingTypesMock);
@@ -130,5 +130,11 @@ describe('Orders API', () => {
         expect(response).toEqual(GetShippingTypesMock);
 
         expect(httpClient.request).toHaveBeenCalledWith("GET", `${ORDERS_PATH}/${id}/shipments`);
-    })
+    });
+
+    test('Throws on network error', async () => {
+        httpClient.request.mockRejectedValueOnce(new Error('Network Error'));
+
+        await expect(api.get('10')).rejects.toThrow('Network Error');
+    });
 })
