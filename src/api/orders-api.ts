@@ -1,5 +1,5 @@
-import { ORDERS_PATH } from "../endpoints/spod-endpoints.js";
-import { HttpClient } from "../http/http-client.js";
+import { ORDERS_PATH } from "../endpoints/spod-endpoints";
+import { HttpClient } from "../http/http-client";
 import {
   CreateOrder,
   ErrorResponse,
