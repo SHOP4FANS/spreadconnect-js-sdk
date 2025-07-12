@@ -59,5 +59,11 @@ describe("Articles API", () => {
 
         expect(deleted).toEqual(undefined);
         expect(httpClient.request).toHaveBeenCalledWith("DELETE", `${ARTICLES_PATH}/${id}`);
-    })
+    });
+
+    test("Throws on network error", async () => {
+        httpClient.request.mockRejectedValueOnce(new Error('Network Error'));
+
+        await expect(api.get({ articleId: 10 })).rejects.toThrow('Network Error');
+    });
 }) 
