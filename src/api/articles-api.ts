@@ -23,10 +23,10 @@ export class ArticlesApi {
     );
   }
 
-  get(props: GetArticleParams) {
+  get(articleId: number) {
     return this.client.request<GetSingleArticleResponse>(
       "GET",
-      `${ARTICLES_PATH}/${props.articleId}`,
+      `${ARTICLES_PATH}/${articleId}`,
     );
   }
 
@@ -38,10 +38,10 @@ export class ArticlesApi {
     );
   }
 
-  delete(props: DeleteArticleParams) {
+  delete(articleId: number) {
     return this.client.request<DeleteSingleArticleResponse>(
       "DELETE",
-      `${ARTICLES_PATH}/${props.articleId}`,
+      `${ARTICLES_PATH}/${articleId}`,
     );
   }
 }

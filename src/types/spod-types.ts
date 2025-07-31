@@ -1,85 +1,400 @@
 /**
  * Type definitions for the Spreadconnect API
- * Generated from OpenAPI schema
+ * Explicitly defined from OpenAPI schema
  */
 
-import { components, operations } from "./spod-schema.js";
+// ==========================================
+// Core Entity Types
+// ==========================================
 
 // Authentication
-export type AuthResponse = operations['authentication info']['responses'][200]['content']['application/json'];
+export type AuthResponse = {
+  merchantId?: number;
+  pointOfSaleId?: number;
+  pointOfSaleName?: string;
+  pointOfSaleType?: string;
+};
 
-// Articles
-export type Article = components['schemas']['Article'];
-export type ArticleCreation = components['schemas']['ArticleCreation'];
-export type ArticleVariant = NonNullable<Article['variants']> extends (infer T)[] ? T : never;
-export type ArticleImage = NonNullable<Article['images']> extends (infer T)[] ? T : never;
-export type ArticleConfiguration = NonNullable<ArticleCreation['configurations']> extends (infer T)[] ? T : never;
+// ==========================================
+// Article Types
+// ==========================================
 
-// Orders
-export type CreateOrder = components['schemas']['CreateOrder'];
-export type GetOrder = components['schemas']['GetOrder'];
-export type CreateOrderItem = components['schemas']['CreateOrderItem'];
-export type GetOrderItem = components['schemas']['GetOrderItem'];
-export type OrderState = NonNullable<GetOrder['state']>;
-export type OrderItemState = NonNullable<GetOrderItem['state']>;
+export type Article = {
+  readonly id?: number;
+  title?: string;
+  description?: string;
+  variants?: ArticleVariant[];
+  images?: ArticleImage[];
+};
 
-// Shipping
-export type ShippingType = components['schemas']['ShippingType'];
-export type AvailableShippingType = components['schemas']['AvailableShippingType'];
-export type ShippingInfo = NonNullable<GetOrder['shipping']>;
-export type PreferredShippingType = NonNullable<NonNullable<CreateOrder['shipping']>['preferredType']>;
+export type ArticleCreation = {
+  title: string;
+  description: string;
+  variants: {
+    productTypeId: number;
+    appearanceId: number;
+    sizeId: number;
+    d2cPrice?: number;
+    externalId?: string;
+  }[];
+  configurations: ArticleConfiguration[];
+  externalId?: string;
+};
 
-// Prices
-export type CustomerPrice = components['schemas']['CustomerPrice'];
-export type Price = components['schemas']['Price'];
+export type ArticleVariant = {
+  id?: number;
+  productTypeId?: number;
+  productTypeName?: string;
+  productId?: number;
+  appearanceId?: number;
+  appearanceName?: string;
+  appearanceColorValue?: string;
+  sizeId?: number;
+  sizeName?: string;
+  sku?: string;
+  d2cPrice?: number;
+  imageIds?: number[];
+};
 
-// Addresses
-export type Address = components['schemas']['Address'];
+export type ArticleImage = {
+  id?: number;
+  productId?: number;
+  appearanceId?: number;
+  appearanceName?: string;
+  perspective?: string;
+  imageUrl?: string;
+};
 
-// Shipments
-export type Shipment = components['schemas']['Shipment'];
-export type TrackingInfo = NonNullable<Shipment['tracking']> extends (infer T)[] ? T : never;
+export type ArticleConfiguration = {
+  image: {
+    url: string;
+  };
+  view: "FRONT" | "BACK" | "LEFT" | "RIGHT" | "HOOD_LEFT" | "HOOD_RIGHT";
+};
 
-// Subscriptions
-export type Subscription = components['schemas']['Subscription'];
-export type EventType = NonNullable<Subscription['eventType']>;
+// ==========================================
+// Order Types
+// ==========================================
 
+export type Order = {
+  id?: number;
+  orderReference?: number;
+  externalOrderReference?: string;
+  externalOrderName?: string;
+  state?: OrderState;
+  orderItems?: GetOrderItem[];
+  shipping?: ShippingInfo;
+  billingAddress?: Address;
+  phone?: string;
+  email?: string;
+  price?: Price;
+  taxType?: TaxType;
+  customerTaxType?: CustomerTaxType;
+};
+
+export type CreateOrder = {
+  orderItems: CreateOrderItem[];
+  shipping: {
+    address: Address;
+    fromAddress?: Address;
+    preferredType?: PreferredShippingType;
+    customerPrice: CustomerPrice;
+  };
+  billingAddress?: Address;
+  phone: string;
+  email: string;
+  externalOrderReference: string;
+  externalOrderName?: string;
+  state?: "NEW" | "CONFIRMED";
+  customerTaxType?: CustomerTaxType;
+  origin?: string;
+};
+
+export type UpdateOrder = {
+  orderItems: CreateOrderItem[];
+  shipping: {
+    address: Address;
+    fromAddress?: Address;
+    preferredType?: PreferredShippingType;
+    customerPrice: CustomerPrice;
+  };
+  billingAddress?: Address;
+  phone: string;
+  email: string;
+  externalOrderReference: string;
+  externalOrderName?: string;
+  state?: "NEW" | "CONFIRMED";
+  customerTaxType?: CustomerTaxType;
+  origin?: string;
+};
+
+export type CreateOrderItem = {
+  sku: string;
+  quantity: number;
+  externalOrderItemReference?: string;
+  customerPrice: CustomerPrice;
+};
+
+export type GetOrderItem = {
+  orderItemReference?: number;
+  externalOrderItemReference?: string;
+  state?: OrderItemState;
+  sku?: string;
+  quantity: number;
+  price?: Price;
+  customerPrice?: CustomerPrice;
+};
+
+export type OrderState = "NEW" | "CONFIRMED" | "PROCESSED" | "CANCELLED";
+
+export type OrderItemState =
+  | "NEW"
+  | "CHECKED"
+  | "CANCELLED"
+  | "PRODUCTION_ISSUE"
+  | "IN_PRODUCTION"
+  | "SENT";
+
+// ==========================================
+// Shipping Types
+// ==========================================
+
+export type ShippingType = {
+  id?: string;
+  company?: string;
+  name?: string;
+  description?: string;
+};
+
+export type AvailableShippingType = ShippingType & {
+  price?: Price;
+};
+
+export type ShippingInfo = {
+  address?: Address;
+  fromAddress?: Address;
+  type?: ShippingType;
+  price?: Price;
+  customerPrice?: CustomerPrice;
+};
+
+export type PreferredShippingType = "STANDARD" | "PREMIUM" | "EXPRESS";
+
+// ==========================================
+// Shipment Types
+// ==========================================
+
+export type Shipment = {
+  id?: number;
+  orderId?: number;
+  orderReference?: number;
+  externalOrderReference?: string;
+  orderItemReferences?: number[];
+  externalOrderItemReferences?: string[];
+  shipping?: {
+    address?: Address;
+    type?: ShippingType;
+    price?: Price;
+  };
+  tracking?: TrackingInfo[];
+  closedDate?: string;
+  sentDate?: string;
+};
+
+export type TrackingInfo = {
+  code?: string;
+  url?: string;
+};
+
+// ==========================================
+// Price Types
+// ==========================================
+
+export type CustomerPrice = {
+  amount: number;
+  currency?: string;
+};
+
+export type Price = {
+  amount: number;
+  taxRate?: number;
+  taxAmount?: number;
+  currency?: string;
+};
+
+export type TaxType = "SALESTAX" | "VAT" | "NOT_TAXABLE";
+export type CustomerTaxType = "SALESTAX" | "VAT" | "NOT_TAXABLE";
+
+// ==========================================
+// Address Types
+// ==========================================
+
+export type Address = {
+  company?: string;
+  firstName?: string;
+  lastName: string;
+  street: string;
+  streetAnnex?: string;
+  city: string;
+  country: string;
+  state?: string;
+  zipCode: string;
+};
+
+// ==========================================
+// Subscription Types
+// ==========================================
+
+export type Subscription = {
+  readonly id?: number;
+  eventType: EventType;
+  url?: string;
+  secret?: string;
+};
+
+export type EventType =
+  | "Shipment.sent"
+  | "Order.cancelled"
+  | "Order.processed"
+  | "Order.needs-action"
+  | "Article.added"
+  | "Article.updated"
+  | "Article.removed";
+
+// ==========================================
 // Product Types
-export type ProductTypes = components['schemas']['ProductTypes'];
-export type ProductSize = NonNullable<ProductTypes['sizes']> extends (infer T)[] ? T : never;
-export type ProductAppearance = NonNullable<ProductTypes['appearances']> extends (infer T)[] ? T : never;
-export type ProductView = NonNullable<ProductTypes['views']> extends (infer T)[] ? T : never;
+// ==========================================
 
-// Size Charts
-export type SizeChart = components['schemas']['SizeChart'];
-export type SizeInfo = NonNullable<SizeChart['sizes']> extends (infer T)[] ? T : never;
-export type Measurement = NonNullable<NonNullable<SizeInfo['measurements']>> extends (infer T)[] ? T : never;
+export type ProductTypes = {
+  id?: string;
+  customerName?: string;
+  customerDescription?: string;
+  merchantName?: string;
+  merchantDescription?: string;
+  sizes?: ProductSize[];
+  brand?: string;
+  appearances?: ProductAppearance[];
+  views?: ProductView[];
+  price?: number;
+  currency?: string;
+};
 
-// Errors
-export type ErrorResponse = components['schemas']['ErrorResponse'];
+export type ProductSize = {
+  id?: string;
+  name?: string;
+};
 
-// Stock
-export type StocksResponse = operations['getStocks']['responses'][200]['content']['application/json'];
+export type ProductAppearance = {
+  id?: string;
+  name?: string;
+};
 
-// Request Parameters
-export type GetArticlesParams = operations['getArticles']['parameters']['query'];
-export type GetArticleParams = operations['getArticle']['parameters']['path'];
-export type DeleteArticleParams = operations['deleteArticle']['parameters']['path'];
+export type ProductView =
+  | "FRONT"
+  | "BACK"
+  | "LEFT"
+  | "RIGHT"
+  | "HOOD_LEFT"
+  | "HOOD_RIGHT";
 
-export type GetStocksParams = operations['getStocks']['parameters']['query'];
+// ==========================================
+// Size Chart Types
+// ==========================================
 
+export type SizeChart = {
+  sizeImageUrl?: string;
+  sizes?: SizeInfo[];
+};
+
+export type SizeInfo = {
+  sizeId?: string;
+  name?: string;
+  measurements?: Measurement[];
+};
+
+export type Measurement = {
+  name?: string;
+  valueMm?: number;
+  valueInch?: number;
+};
+
+// ==========================================
+// Stock Types
+// ==========================================
+
+export type GetStocksResponse = {
+  items?: {
+    [key: string]: number;
+  };
+  count: number;
+  limit: number;
+  offset?: number;
+};
+
+export type GetStockResponse = number;
+
+// ==========================================
+// Error Types
+// ==========================================
+
+export type ErrorResponse = {
+  orderId?: number;
+  reason?: string;
+};
+
+// ==========================================
+// Request Parameter Types
+// ==========================================
+
+export type GetArticlesParams = {
+  limit?: number;
+  offset?: number;
+};
+
+export type GetArticleParams = {
+  articleId: number;
+};
+
+export type DeleteArticleParams = {
+  articleId: number;
+};
+
+export type GetStocksParams = {
+  limit?: number;
+  offset?: number;
+};
+
+// ==========================================
 // Response Types
-export type GetArticlesResponse = operations['getArticles']['responses'][200]['content']['application/json'];
-export type CreateArticleResponse = operations['createArticle']['responses'][202]['content']['application/json'];
-export type GetSingleArticleResponse = operations['getArticle']['responses'][200]['content']['application/json'];
-export type DeleteSingleArticleResponse = operations['deleteArticle']['responses'][200]['content'];
+// ==========================================
 
-export type GetShippingTypesResponse = operations['getShippingTypes']['responses'][200]['content']['application/json'];
-export type GetShipmentsResponse = operations['getShipments']['responses'][200]['content']['application/json'];
-export type GetProductTypesResponse = operations['getProductTypes']['responses'][200]['content']['application/json'];
-export type GetStockResponse = operations['getStock']['responses'][200]['content']['application/json'];
-export type GetSubscriptionsResponse = operations['getSubscriptions']['responses'][200]['content']['application/json'];
+// Article Responses
+export type GetArticlesResponse = {
+  items?: Article[];
+  count: number;
+  limit: number;
+  offset?: number;
+};
 
-// Tax Types
-export type TaxType = NonNullable<GetOrder['taxType']>;
-export type CustomerTaxType = NonNullable<CreateOrder['customerTaxType']>;
+export type CreateArticleResponse = number;
+export type GetSingleArticleResponse = Article;
+export type DeleteSingleArticleResponse = undefined;
+
+// Order Responses
+export type CreateOrderResponse = Order;
+export type UpdateOrderResponse = Order;
+export type GetSingleOrderResponse = Order;
+
+// Shipping Responses
+export type GetShippingTypesResponse = AvailableShippingType[];
+export type GetShipmentsResponse = Shipment[];
+
+// Product Responses
+export type GetProductTypesResponse = {
+  items?: ProductTypes[];
+};
+export type GetSingleProductTypesResponse = ProductTypes;
+export type GetSingleSizeChartResponse = SizeChart;
+
+// Subscription Responses
+export type GetSubscriptionsResponse = Subscription[];
