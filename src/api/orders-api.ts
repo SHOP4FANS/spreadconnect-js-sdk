@@ -3,20 +3,24 @@ import { HttpClient } from "../http/http-client";
 import {
   CreateOrder,
   ErrorResponse,
-  GetOrder,
+  Order,
   GetShipmentsResponse,
   GetShippingTypesResponse,
+  CreateOrderResponse,
+  UpdateOrderResponse,
+  UpdateOrder,
+  GetSingleOrderResponse,
 } from "../types/index.js";
 
 export class OrdersApi {
   constructor(private client: HttpClient) {}
 
   create(props: CreateOrder) {
-    return this.client.request<GetOrder>("POST", ORDERS_PATH, props);
+    return this.client.request<CreateOrderResponse>("POST", ORDERS_PATH, props);
   }
 
-  update(orderId: string, props: CreateOrder) {
-    return this.client.request<GetOrder>(
+  update(orderId: string, props: UpdateOrder) {
+    return this.client.request<UpdateOrderResponse>(
       "UPDATE",
       `${ORDERS_PATH}/${orderId}`,
       props,
@@ -24,7 +28,10 @@ export class OrdersApi {
   }
 
   get(orderId: string) {
-    return this.client.request<GetOrder>("GET", `${ORDERS_PATH}/${orderId}`);
+    return this.client.request<GetSingleOrderResponse>(
+      "GET",
+      `${ORDERS_PATH}/${orderId}`,
+    );
   }
 
   confirm(orderId: string) {

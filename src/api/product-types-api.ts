@@ -2,8 +2,8 @@ import { PRODUCT_TYPES_PATH } from "../endpoints/spod-endpoints.js";
 import { HttpClient } from "../http/http-client.js";
 import {
   GetProductTypesResponse,
-  ProductTypes,
-  SizeChart,
+  GetSingleProductTypesResponse,
+  GetSingleSizeChartResponse,
 } from "../types/spod-types.js";
 
 export class ProductTypesApi {
@@ -17,14 +17,14 @@ export class ProductTypesApi {
   }
 
   get(productTypeId: string) {
-    return this.client.request<ProductTypes>(
+    return this.client.request<GetSingleProductTypesResponse>(
       "GET",
       `${PRODUCT_TYPES_PATH}/${productTypeId}`,
     );
   }
 
   get_size_chart(productTypeId: string) {
-    return this.client.request<SizeChart>(
+    return this.client.request<GetSingleSizeChartResponse>(
       "GET",
       `${PRODUCT_TYPES_PATH}/${productTypeId}/size-chart`,
     );

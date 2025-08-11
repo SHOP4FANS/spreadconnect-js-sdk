@@ -3,14 +3,14 @@ import { HttpClient } from "../http/http-client.js";
 import {
   GetStockResponse,
   GetStocksParams,
-  StocksResponse,
+  GetStocksResponse,
 } from "../types/spod-types.js";
 
 export class StocksApi {
   constructor(private client: HttpClient) {}
 
   list(params?: GetStocksParams) {
-    return this.client.request<StocksResponse>(
+    return this.client.request<GetStocksResponse>(
       "GET",
       `${STOCKS_PATH}`,
       undefined,
