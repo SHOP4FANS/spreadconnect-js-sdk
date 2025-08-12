@@ -2,12 +2,12 @@ import {
   ArticleCreationMock,
   GetArticlesResponseMock,
   GetSingleArticleResponseMock,
-} from "../__mock__/article";
-import { ArticlesApi } from "../api/articles-api";
-import { ARTICLES_PATH } from "../endpoints/spod-endpoints";
-import { HttpClient } from "../http/http-client";
+} from "../../__mock__/article";
+import { ArticlesApi } from "../../api/articles-api";
+import { ARTICLES_PATH } from "../../endpoints/spod-endpoints";
+import { HttpClient } from "../../http/http-client";
 
-jest.mock("../http/http-client");
+jest.mock("../../http/http-client");
 
 const MockedHttpClient = HttpClient as jest.MockedClass<typeof HttpClient>;
 
