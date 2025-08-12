@@ -6,7 +6,7 @@ import { HttpClient } from "../http/http-client.js";
 import { GetSubscriptionsResponse, Subscription } from "../types/spod-types.js";
 
 export class SubscriptionsApi {
-  constructor(private client: HttpClient) { }
+  constructor(private client: HttpClient) {}
 
   /**
    * Creates a new subscription for specific event notifications.
@@ -27,7 +27,8 @@ export class SubscriptionsApi {
    * @param [props.secret] - A secret used for verifying webhook payloads.
    *
    * @returns A promise that resolves when the subscription is successfully created.
- */
+   */
+
   create(props: Subscription) {
     return this.client.request<void>("POST", `${SUBSCRIPTIONS_PATH}`, props);
   }
@@ -45,6 +46,7 @@ export class SubscriptionsApi {
       `${SUBSCRIPTIONS_PATH}`,
     );
   }
+
   /**
    * Deletes an existing subscription by its ID.
    *
@@ -60,6 +62,7 @@ export class SubscriptionsApi {
       `${SUBSCRIPTIONS_PATH}/${subscriptionId}`,
     );
   }
+
   /**
    * Simulates the `Order.cancelled` event for a given order.
    *
@@ -76,6 +79,7 @@ export class SubscriptionsApi {
       `${ORDERS_PATH}/${orderId}/simulate/order-cancelled`,
     );
   }
+
   /**
    * Simulates the `Order.processed` event for a given order.
    *
@@ -92,6 +96,7 @@ export class SubscriptionsApi {
       `${ORDERS_PATH}/${orderId}/simulate/order-processed`,
     );
   }
+
   /**
    * Simulates the `Shipment.sent` event for a given order.
    *
