@@ -131,14 +131,16 @@ describe("Orders API", () => {
 
   test("Set Shipping Type", async () => {
     const id = "10";
+    const ordersId = "1"
 
-    const response = await api.set_shipping_type(id);
+    const response = await api.set_shipping_type(id, ordersId);
 
     expect(response).toEqual(undefined);
 
     expect(httpClient.request).toHaveBeenCalledWith(
       "POST",
       `${ORDERS_PATH}/${id}/shippingType`,
+      { id: ordersId }
     );
   });
 
