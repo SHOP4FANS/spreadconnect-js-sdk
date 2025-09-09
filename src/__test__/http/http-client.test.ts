@@ -120,4 +120,31 @@ describe("HttpClient", () => {
     expect(res.data).toBeUndefined();
     expect(res.rawBody).toBe("invalid-json");
   });
+
+  it("should send FormData without Content-Type header", async () => {
+    fetchMock.mockResolvedValue({
+      status: 200,
+      text: () => Promise.resolve("{}"),
+    });
+
+    const formData = new FormData();
+    formData.append(
+      "file",
+      new Blob(["test"], { type: "text/plain" }),
+      "test.txt",
+    );
+
+    await client.request("POST", "/upload", formData);
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://api.example.com/upload",
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "X-SPOD-ACCESS-TOKEN": token,
+        },
+        body: formData,
+      }),
+    );
+  });
 });

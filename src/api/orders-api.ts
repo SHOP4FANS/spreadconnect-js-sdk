@@ -33,7 +33,7 @@ export class OrdersApi {
   /**
    * Updates an existing order.
    *
-   * Sends an UPDATE request to the `/orders/{orderId}` endpoint with the updated order details.
+   * Sends an PUT request to the `/orders/{orderId}` endpoint with the updated order details.
    *
    * @param orderId - The ID of the order to update.
    * @param props - The updated order data.
@@ -42,7 +42,7 @@ export class OrdersApi {
    */
   update(orderId: string, props: UpdateOrder) {
     return this.client.request<UpdateOrderResponse>(
-      "UPDATE",
+      "PUT",
       `${ORDERS_PATH}/${orderId}`,
       props,
     );
