@@ -23,7 +23,7 @@ export class SubscriptionsApi {
    *
    * @param props - The subscription data.
    * @param props.eventType - The type of event to subscribe to (required).
-   * @param [props.url] - The URL to which event notifications will be sent.
+   * @param props.url - The URL to which event notifications will be sent.
    * @param [props.secret] - A secret used for verifying webhook payloads.
    *
    * @returns A promise that resolves when the subscription is successfully created.

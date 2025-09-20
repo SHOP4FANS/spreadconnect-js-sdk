@@ -64,6 +64,7 @@ The SDK wraps the main Spreadconnect API endpoints:
 | **Subscriptions** | `SubscriptionsApi`  | `spreadconnect.subscriptions.create({...})`    |
 | **Product Types** | `ProductTypesApi`   | `spreadconnect.productTypes.list()`            |
 | **Stocks**        | `StocksApi`         | `spreadconnect.stocks.list()`                  |
+| **Designs**       | `DesignsApi`        | `spreadconnect.designs.upload()`               |
 
 ---
 

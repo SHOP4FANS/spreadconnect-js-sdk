@@ -67,7 +67,7 @@ describe("Orders API", () => {
     expect(order).toEqual(GetOrderMock);
 
     expect(httpClient.request).toHaveBeenCalledWith(
-      "UPDATE",
+      "PUT",
       `${ORDERS_PATH}/${id}`,
       CreateOrderMock,
     );

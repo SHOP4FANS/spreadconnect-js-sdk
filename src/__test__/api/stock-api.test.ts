@@ -1,4 +1,8 @@
-import { StockResponseMock, StocksResponseMock } from "../../__mock__/stock";
+import {
+  StockResponseMock,
+  StocksResponseMock,
+  GetStockByProductTypeResponseMock,
+} from "../../__mock__/stock";
 import { StocksApi } from "../../api/stocks-api";
 import { STOCKS_PATH } from "../../endpoints/spod-endpoints";
 import { HttpClient } from "../../http/http-client";
@@ -47,6 +51,19 @@ describe("Orders API", () => {
     expect(httpClient.request).toHaveBeenCalledWith(
       "GET",
       `${STOCKS_PATH}/${sku}`,
+    );
+  });
+
+  test("Get stock by product type", async () => {
+    const id = "10";
+    httpClient.request.mockResolvedValueOnce(GetStockByProductTypeResponseMock);
+
+    const stock = await api.get_by_productType(id);
+
+    expect(stock).toEqual(GetStockByProductTypeResponseMock);
+    expect(httpClient.request).toHaveBeenCalledWith(
+      "GET",
+      `${STOCKS_PATH}/productType/${id}`,
     );
   });
 
