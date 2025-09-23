@@ -268,7 +268,7 @@ export type Address = {
 // ==========================================
 
 export type Subscription = {
-  readonly id?: number;
+  readonly id: string;
   eventType: EventType;
   url: string;
   secret?: string;
