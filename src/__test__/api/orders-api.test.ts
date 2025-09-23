@@ -67,7 +67,7 @@ describe("Orders API", () => {
     expect(order).toEqual(GetOrderMock);
 
     expect(httpClient.request).toHaveBeenCalledWith(
-      "UPDATE",
+      "PUT",
       `${ORDERS_PATH}/${id}`,
       CreateOrderMock,
     );
@@ -131,7 +131,7 @@ describe("Orders API", () => {
 
   test("Set Shipping Type", async () => {
     const id = "10";
-    const ordersId = "1"
+    const ordersId = "1";
 
     const response = await api.set_shipping_type(id, ordersId);
 
@@ -140,7 +140,7 @@ describe("Orders API", () => {
     expect(httpClient.request).toHaveBeenCalledWith(
       "POST",
       `${ORDERS_PATH}/${id}/shippingType`,
-      { id: ordersId }
+      { id: ordersId },
     );
   });
 

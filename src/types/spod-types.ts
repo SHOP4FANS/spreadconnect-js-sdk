@@ -53,6 +53,7 @@ export type ArticleVariant = {
   sizeName?: string;
   sku?: string;
   d2cPrice?: number;
+  b2bPrice?: number;
   imageIds?: number[];
 };
 
@@ -68,8 +69,10 @@ export type ArticleImage = {
 export type ArticleConfiguration = {
   image: {
     url: string;
+    designId?: string;
   };
   view: "FRONT" | "BACK" | "LEFT" | "RIGHT" | "HOOD_LEFT" | "HOOD_RIGHT";
+  hotspot?: string;
 };
 
 // ==========================================
@@ -94,6 +97,7 @@ export type Order = {
 
 export type CreateOrder = {
   orderItems: CreateOrderItem[];
+  oneTimeItems?: OneTimeItem[];
   shipping: {
     address: Address;
     fromAddress?: Address;
@@ -112,6 +116,7 @@ export type CreateOrder = {
 
 export type UpdateOrder = {
   orderItems: CreateOrderItem[];
+  oneTimeItems?: OneTimeItem[];
   shipping: {
     address: Address;
     fromAddress?: Address;
@@ -133,6 +138,23 @@ export type CreateOrderItem = {
   quantity: number;
   externalOrderItemReference?: string;
   customerPrice: CustomerPrice;
+};
+
+export type OneTimeItem = {
+  quantityItems?: QuantityItem[];
+  configurations?: ArticleConfiguration[];
+  productTypeId?: number;
+  externalOrderItemReference?: string;
+  customerPricePerItem?: {
+    amount: number;
+    currency?: string;
+  };
+};
+
+export type QuantityItem = {
+  quantity?: number;
+  sizeId?: number;
+  appearanceId?: object;
 };
 
 export type GetOrderItem = {
@@ -248,7 +270,7 @@ export type Address = {
 export type Subscription = {
   readonly id?: number;
   eventType: EventType;
-  url?: string;
+  url: string;
   secret?: string;
 };
 
@@ -298,6 +320,73 @@ export type ProductView =
   | "HOOD_RIGHT";
 
 // ==========================================
+// Category Types
+// ==========================================
+export type CategoryNode = {
+  id?: string;
+  translation?: string;
+  children?: CategoryNode[]; // recursive
+};
+
+export type Feature = {
+  id?: string;
+  translation?: string;
+};
+
+export type BrandCategory = {
+  id?: string;
+  translation?: string;
+};
+
+export type Gender = {
+  id?: string;
+  translation?: string;
+};
+
+export type Categories = {
+  categories?: CategoryNode[];
+  features?: Feature[];
+  brands?: BrandCategory[];
+  genders?: Gender[];
+};
+
+// ==========================================
+// View Types
+// ==========================================
+export type ViewHotspot = {
+  name?: string; // e.g. "CHEST_LEFT"
+};
+
+export type ViewImage = {
+  appearanceId: string;
+  image: string;
+};
+
+export type View = {
+  name?: string;
+  id?: string;
+  hotspots?: ViewHotspot[];
+  images?: ViewImage[];
+};
+
+export type Views = {
+  views?: View[];
+};
+
+// ==========================================
+// Preview Types
+// ==========================================
+export type PreviewImage = {
+  url?: string;
+  viewId?: string;
+  viewName?: string;
+};
+
+export type Preview = {
+  images?: PreviewImage[];
+};
+
+// ==========================================
 // Size Chart Types
 // ==========================================
 
@@ -331,7 +420,26 @@ export type GetStocksResponse = {
   offset?: number;
 };
 
+export type StockVariantByProductType = {
+  appearanceId: string;
+  sizeId: string;
+  stock: number;
+};
+
+export type GetStockByProductTypeResponse = {
+  variants?: StockVariantByProductType[];
+};
+
 export type GetStockResponse = number;
+
+// ==========================================
+// Designs Types
+// ==========================================
+
+export type DesignUpload = {
+  file?: Blob;
+  url?: string;
+};
 
 // ==========================================
 // Error Types
@@ -398,3 +506,20 @@ export type GetSingleSizeChartResponse = SizeChart;
 
 // Subscription Responses
 export type GetSubscriptionsResponse = Subscription[];
+
+// Category Responses
+export type GetProductTypeCategoriesResponse = Categories;
+
+// Views Responses
+export type GetProductTypeViewsResponse = Views;
+export type GetProductTypeDesignHotspotsResponse = {
+  hotspots?: { name?: string }[];
+};
+
+// Preview Responses
+export type GetProductTypePreviewsResponse = Preview;
+
+// Design Responses
+export type DesignUploadResponse = {
+  designId: string;
+};

@@ -1,4 +1,8 @@
-import { ApiResponse, GetStocksResponse } from "../types";
+import {
+  ApiResponse,
+  GetStocksResponse,
+  GetStockByProductTypeResponse,
+} from "../types";
 
 export const StocksResponseMock: ApiResponse<GetStocksResponse> = {
   status: 200,
@@ -15,3 +19,22 @@ export const StockResponseMock: ApiResponse<number> = {
   status: 200,
   data: 10,
 };
+
+export const GetStockByProductTypeResponseMock: ApiResponse<GetStockByProductTypeResponse> =
+  {
+    status: 200,
+    data: {
+      variants: [
+        {
+          appearanceId: "1",
+          sizeId: "M",
+          stock: 42,
+        },
+        {
+          appearanceId: "2",
+          sizeId: "L",
+          stock: 10,
+        },
+      ],
+    },
+  };
