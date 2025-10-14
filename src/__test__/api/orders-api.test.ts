@@ -140,7 +140,7 @@ describe("Orders API", () => {
     expect(httpClient.request).toHaveBeenCalledWith(
       "POST",
       `${ORDERS_PATH}/${id}/shippingType`,
-      { id: ordersId },
+      { id: ordersId }
     );
   });
 
