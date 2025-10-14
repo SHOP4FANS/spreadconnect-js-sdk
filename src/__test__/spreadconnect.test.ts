@@ -7,6 +7,7 @@ import { OrdersApi } from "../api/orders-api.js";
 import { SubscriptionsApi } from "../api/subscriptions-api.js";
 import { ProductTypesApi } from "../api/product-types-api.js";
 import { StocksApi } from "../api/stocks-api.js";
+import { DesignsApi } from "../api/designs-api.js";
 
 jest.mock("../http/http-client.js");
 jest.mock("../api/articles-api.js");
@@ -14,6 +15,7 @@ jest.mock("../api/orders-api.js");
 jest.mock("../api/subscriptions-api.js");
 jest.mock("../api/product-types-api.js");
 jest.mock("../api/stocks-api.js");
+jest.mock("../api/designs-api.js");
 
 describe("Spreadconnect", () => {
   const baseUrl = "https://api.example.com";
@@ -41,12 +43,14 @@ describe("Spreadconnect", () => {
     expect(SubscriptionsApi).toHaveBeenCalledWith(fakeClient);
     expect(ProductTypesApi).toHaveBeenCalledWith(fakeClient);
     expect(StocksApi).toHaveBeenCalledWith(fakeClient);
+    expect(DesignsApi).toHaveBeenCalledWith(fakeClient);
 
     expect(spreadconnect.articles).toBeInstanceOf(ArticlesApi);
     expect(spreadconnect.orders).toBeInstanceOf(OrdersApi);
     expect(spreadconnect.subscriptions).toBeInstanceOf(SubscriptionsApi);
     expect(spreadconnect.productTypes).toBeInstanceOf(ProductTypesApi);
     expect(spreadconnect.stocks).toBeInstanceOf(StocksApi);
+    expect(spreadconnect.designs).toBeInstanceOf(DesignsApi);
   });
 
   it("should store API instances on the class", () => {
@@ -57,5 +61,6 @@ describe("Spreadconnect", () => {
     expect(spreadconnect).toHaveProperty("subscriptions");
     expect(spreadconnect).toHaveProperty("productTypes");
     expect(spreadconnect).toHaveProperty("stocks");
+    expect(spreadconnect).toHaveProperty("designs");
   });
 });

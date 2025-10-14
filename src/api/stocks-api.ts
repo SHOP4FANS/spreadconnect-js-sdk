@@ -4,6 +4,7 @@ import {
   GetStockResponse,
   GetStocksParams,
   GetStocksResponse,
+  GetStockByProductTypeResponse,
 } from "../types/spod-types.js";
 
 export class StocksApi {
@@ -41,5 +42,21 @@ export class StocksApi {
    */
   get(sku: string) {
     return this.client.request<number>("GET", `${STOCKS_PATH}/${sku}`);
+  }
+
+  /**
+   * Retrieves the available stock for a specific product type with all its variants.
+   *
+   * Sends a GET request to the `/stock/productType/{productTypeId}` endpoint.
+   *
+   * @param productTypeId - The ID of the product type to retrieve stock for.
+   *
+   * @returns A promise that resolves with the stock information grouped by variants (appearance + size).
+   */
+  get_by_productType(productTypeId: string) {
+    return this.client.request<GetStockByProductTypeResponse>(
+      "GET",
+      `${STOCKS_PATH}/productType/${productTypeId}`,
+    );
   }
 }

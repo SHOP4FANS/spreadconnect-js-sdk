@@ -17,13 +17,24 @@ export class HttpClient {
     if (queryParams && Object.keys(queryParams).length > 0) {
       url += "?" + toQueryString(queryParams);
     }
+
+    const headers: Record<string, string> = {
+      "X-SPOD-ACCESS-TOKEN": this.token,
+    };
+
+    let fetchBody: BodyInit | undefined;
+
+    if (body instanceof FormData) {
+      fetchBody = body;
+    } else if (body !== undefined) {
+      headers["Content-Type"] = "application/json";
+      fetchBody = JSON.stringify(body);
+    }
+
     const result = await fetch(url, {
       method,
-      headers: {
-        "X-SPOD-ACCESS-TOKEN": this.token,
-        "Content-Type": "application/json",
-      },
-      body: body ? JSON.stringify(body) : undefined,
+      headers,
+      body: fetchBody,
     });
 
     const text = await result.text();

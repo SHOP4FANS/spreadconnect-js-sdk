@@ -4,6 +4,7 @@ import { OrdersApi } from "./api/orders-api.js";
 import { SubscriptionsApi } from "./api/subscriptions-api.js";
 import { ProductTypesApi } from "./api/product-types-api.js";
 import { StocksApi } from "./api/stocks-api.js";
+import { DesignsApi } from "./api/designs-api.js";
 
 export class Spreadconnect {
   public articles: ArticlesApi;
@@ -11,6 +12,7 @@ export class Spreadconnect {
   public subscriptions: SubscriptionsApi;
   public productTypes: ProductTypesApi;
   public stocks: StocksApi;
+  public designs: DesignsApi;
 
   constructor({ baseUrl, token }: { baseUrl: string; token: string }) {
     const client = new HttpClient(baseUrl, token);
@@ -19,5 +21,6 @@ export class Spreadconnect {
     this.subscriptions = new SubscriptionsApi(client);
     this.productTypes = new ProductTypesApi(client);
     this.stocks = new StocksApi(client);
+    this.designs = new DesignsApi(client);
   }
 }
