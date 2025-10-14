@@ -131,11 +131,7 @@ describe("Orders API", () => {
 
   test("Set Shipping Type", async () => {
     const id = "10";
-<<<<<<< HEAD
-    const ordersId = "1"
-=======
     const ordersId = "1";
->>>>>>> cf29bce4d91616bff115f6820fdc7acfe8beb53e
 
     const response = await api.set_shipping_type(id, ordersId);
 
