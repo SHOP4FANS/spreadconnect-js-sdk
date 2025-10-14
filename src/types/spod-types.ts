@@ -498,9 +498,7 @@ export type GetShippingTypesResponse = AvailableShippingType[];
 export type GetShipmentsResponse = Shipment[];
 
 // Product Responses
-export type GetProductTypesResponse = {
-  items?: ProductTypes[];
-};
+export type GetProductTypesResponse = ProductTypes[];
 export type GetSingleProductTypesResponse = ProductTypes;
 export type GetSingleSizeChartResponse = SizeChart;
 
