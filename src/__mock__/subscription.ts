@@ -1,6 +1,7 @@
 import { ApiResponse, GetSubscriptionsResponse, Subscription } from "../types";
 
 export const CreateSubscriptionPropsMock: Subscription = {
+  id: "id",
   eventType: "Shipment.sent",
   url: "https://example.com/webhook",
 };
@@ -30,6 +31,7 @@ export const GetSubscriptionsResponseMock: ApiResponse<GetSubscriptionsResponse>
     status: 200,
     data: [
       {
+        id: "id",
         eventType: "Shipment.sent",
         url: "https://example.com/webhook",
       },
