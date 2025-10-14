@@ -29,9 +29,7 @@ export const GetSingleProductTypeResponseMock: ApiResponse<ProductTypes> = {
 export const GetProductTypesResponseMock: ApiResponse<GetProductTypesResponse> =
   {
     status: 200,
-    data: {
-      items: [productType],
-    },
+    data: [productType]
   };
 
 export const GetProductTypeCategoriesResponseMock: ApiResponse<GetProductTypeCategoriesResponse> =
