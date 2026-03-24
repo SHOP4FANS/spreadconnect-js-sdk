@@ -3,7 +3,10 @@ import {
   SUBSCRIPTIONS_PATH,
 } from "../endpoints/spod-endpoints.js";
 import { HttpClient } from "../http/http-client.js";
-import { GetSubscriptionsResponse, Subscription } from "../types/spod-types.js";
+import {
+  GetSubscriptionsResponse,
+  SubscriptionCreate,
+} from "../types/spod-types.js";
 
 export class SubscriptionsApi {
   constructor(private client: HttpClient) {}
@@ -29,7 +32,7 @@ export class SubscriptionsApi {
    * @returns A promise that resolves when the subscription is successfully created.
    */
 
-  create(props: Subscription) {
+  create(props: SubscriptionCreate) {
     return this.client.request<void>("POST", `${SUBSCRIPTIONS_PATH}`, props);
   }
 

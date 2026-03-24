@@ -55,6 +55,7 @@ export type ArticleVariant = {
   d2cPrice?: number;
   b2bPrice?: number;
   imageIds?: number[];
+  stock?: number;
 };
 
 export type ArticleImage = {
@@ -269,6 +270,12 @@ export type Address = {
 
 export type Subscription = {
   readonly id: string;
+  eventType: EventType;
+  url: string;
+  secret?: string;
+};
+
+export type SubscriptionCreate = {
   eventType: EventType;
   url: string;
   secret?: string;
