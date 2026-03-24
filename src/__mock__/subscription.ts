@@ -1,7 +1,10 @@
-import { ApiResponse, GetSubscriptionsResponse, Subscription } from "../types";
+import {
+  ApiResponse,
+  GetSubscriptionsResponse,
+  SubscriptionCreate,
+} from "../types";
 
-export const CreateSubscriptionPropsMock: Subscription = {
-  id: "id",
+export const CreateSubscriptionPropsMock: SubscriptionCreate = {
   eventType: "Shipment.sent",
   url: "https://example.com/webhook",
 };
